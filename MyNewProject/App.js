@@ -1,16 +1,23 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
-import CounterApp from './components/
-Counter App';
-import ColorChanger App from './components/
-ColorChanger App';
+import { View, StyleSheet } from 'react-native';
+import CounterApp from './components/CounterApp';
+import ColorChangerApp from './components/ColorChangerApp';
+
 export default function App() {
-return (
-<ScrollView style={{ flex: 1 }}>
-<CounterApp />
-<Color Changer App />
-
-</ScrollView>
-
-);
+  return (
+    <View style={styles.container}>
+      <CounterApp />
+      <View style={{ height: 30 }} /> {/* Space between sections */}
+      <ColorChangerApp />
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, // Fill screen height
+    justifyContent: 'center', // Center vertically
+    alignItems: 'center', // Center horizontally
+    padding: 20,
+  },
+});
