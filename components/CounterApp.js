@@ -1,3 +1,4 @@
+// CounterApp.js
 import React, { useState } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 
@@ -16,6 +17,6 @@ export default function CounterApp() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: "center", justifyContent: "center" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
-  count: { fontSize: 48, marginVertical: 20 }
+  title: { fontSize: 28, fontWeight: "bold", marginBottom: 20 },
+  count: { fontSize: 40, marginVertical: 20 }
 });
