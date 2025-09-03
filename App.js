@@ -1,27 +1,44 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
 export default function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
+  // Function to handle sending messages
   const sendMessage = () => {
     if (input.trim() === "") return;
 
-    // User message
-    const newMessages = [...messages, { id: Date.now().toString(), text: input, sender: "user" }];
+    const userMessage = {
+      id: Date.now().toString(),
+      text: input,
+      sender: "user",
+    };
 
-    // Bot reply
-    newMessages.push({
-      id: (Date.now() + 1).toString(),
-      text: "You said: " + input,
-      sender: "bot",
-    });
-
-    setMessages(newMessages);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
+
+    // Fake bot reply after a short delay
+    setTimeout(() => {
+      const botMessage = {
+        id: (Date.now() + 1).toString(),
+        text: "🤖 Bot: " + input,
+        sender: "bot",
+      };
+      setMessages((prev) => [...prev, botMessage]);
+    }, 600);
   };
 
+  // Render each message
   const renderItem = ({ item }) => (
     <View
       style={[
@@ -29,12 +46,22 @@ export default function App() {
         item.sender === "user" ? styles.userMessage : styles.botMessage,
       ]}
     >
-      <Text style={styles.messageText}>{item.text}</Text>
+      <Text
+        style={[
+          styles.messageText,
+          item.sender === "user" ? { color: "white" } : { color: "black" },
+        ]}
+      >
+        {item.text}
+      </Text>
     </View>
   );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id}
@@ -48,12 +75,13 @@ export default function App() {
           value={input}
           onChangeText={setInput}
           placeholder="Type a message..."
+          onSubmitEditing={sendMessage} // Send when pressing Enter
         />
         <TouchableOpacity style={styles.button} onPress={sendMessage}>
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -71,7 +99,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     padding: 10,
     borderRadius: 10,
-    maxWidth: "70%",
+    maxWidth: "75%",
   },
   userMessage: {
     backgroundColor: "#007bff",
@@ -82,7 +110,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   messageText: {
-    color: "black",
+    fontSize: 16,
   },
   inputBox: {
     flexDirection: "row",
@@ -97,6 +125,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 20,
     paddingHorizontal: 15,
+    fontSize: 16,
   },
   button: {
     marginLeft: 10,
