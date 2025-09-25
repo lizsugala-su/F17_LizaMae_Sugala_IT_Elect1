@@ -26,7 +26,7 @@ export default function App() {
 
     // Auto reply
     setTimeout(() => {
-      const reply = { id: (Date.now() + 1).toString(), text: "🤖 Bot: Hi Rayla", sender: "bot" };
+      const reply = { id: (Date.now() + 1).toString(), text: "🤖 Bot: Hi Lizaaa", sender: "bot" };
       setMessages((prev) => [...prev, reply]);
     }, 1000);
   };
